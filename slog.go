@@ -13,12 +13,12 @@ type logger struct {
 	*logrus.Logger
 }
 
-var (
-	rootLogger = newRootLogger()
-)
+var rootLogger *logger
 
 func init() {
+	rootLogger = newRootLogger()
 	logrus.AddHook(logrus_stack.NewHook(nil, []logrus.Level{logrus.PanicLevel, logrus.FatalLevel, logrus.ErrorLevel, logrus.WarnLevel}))
+	logrus.SetLevel(logrus.InfoLevel)
 }
 
 func newRootLogger() *logger {
@@ -77,7 +77,7 @@ func Debugf(format string, args ...interface{}) {
 
 // Infof func
 func Infof(format string, args ...interface{}) {
-	if rootLogger.Level >= logrus.DebugLevel {
+	if rootLogger.Level >= logrus.InfoLevel {
 		if len(args) == 1 {
 			if fx, ok := args[0].(func() interface{}); ok {
 				rootLogger.Infof(format, fx())
@@ -156,7 +156,9 @@ func Debug(args ...interface{}) {
 
 // Info func
 func Info(args ...interface{}) {
-	rootLogger.Info(args...)
+	if rootLogger.Level >= logrus.InfoLevel {
+		rootLogger.Info(args...)
+	}
 }
 
 // Warn func
