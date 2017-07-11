@@ -59,69 +59,97 @@ func SetLevelToWarn() {
 }
 
 // Debugf func
-func Debugf(format string, fn func() interface{}) {
+func Debugf(format string, args ...interface{}) {
 	if rootLogger.Level >= logrus.DebugLevel {
-		ff := fn()
-		rootLogger.Debugf(format, ff)
-	}
-}
-
-// Debugff func
-func Debugff(format string, fn func() []interface{}) {
-	if rootLogger.Level >= logrus.DebugLevel {
-		ff := fn()
-		rootLogger.Debugf(format, ff...)
-	}
-}
-
-// Debugfi func
-func Debugfi(format string, ff ...interface{}) {
-	if rootLogger.Level >= logrus.DebugLevel {
-		rootLogger.Debugf(format, ff...)
+		if len(args) == 1 {
+			if fx, ok := args[0].(func() interface{}); ok {
+				rootLogger.Debugf(format, fx())
+				return
+			}
+			if fx, ok := args[0].(func() []interface{}); ok {
+				rootLogger.Debugf(format, fx()...)
+				return
+			}
+		}
+		rootLogger.Debugf(format, args...)
 	}
 }
 
 // Infof func
-func Infof(format string, fn func() interface{}) {
-	if rootLogger.Level >= logrus.InfoLevel {
-		ff := fn()
-		rootLogger.Infof(format, ff)
-	}
-}
-
-// Infoff func
-func Infoff(format string, fn func() []interface{}) {
-	if rootLogger.Level >= logrus.InfoLevel {
-		ff := fn()
-		rootLogger.Infof(format, ff)
-	}
-}
-
-// Infofi func
-func Infofi(format string, ff ...interface{}) {
+func Infof(format string, args ...interface{}) {
 	if rootLogger.Level >= logrus.DebugLevel {
-		rootLogger.Infof(format, ff...)
+		if len(args) == 1 {
+			if fx, ok := args[0].(func() interface{}); ok {
+				rootLogger.Infof(format, fx())
+				return
+			}
+			if fx, ok := args[0].(func() []interface{}); ok {
+				rootLogger.Infof(format, fx()...)
+				return
+			}
+		}
+		rootLogger.Infof(format, args...)
 	}
 }
 
 // Warnf func
 func Warnf(format string, args ...interface{}) {
+	if len(args) == 1 {
+		if fx, ok := args[0].(func() interface{}); ok {
+			rootLogger.Warnf(format, fx())
+			return
+		}
+		if fx, ok := args[0].(func() []interface{}); ok {
+			rootLogger.Warnf(format, fx()...)
+			return
+		}
+	}
 	rootLogger.Warnf(format, args...)
 }
 
 // Errorf func
 func Errorf(format string, args ...interface{}) {
+	if len(args) == 1 {
+		if fx, ok := args[0].(func() interface{}); ok {
+			rootLogger.Errorf(format, fx())
+			return
+		}
+		if fx, ok := args[0].(func() []interface{}); ok {
+			rootLogger.Errorf(format, fx()...)
+			return
+		}
+	}
 	rootLogger.Errorf(format, args...)
 }
 
 // Panicf func
 func Panicf(format string, args ...interface{}) {
+	if len(args) == 1 {
+		if fx, ok := args[0].(func() interface{}); ok {
+			rootLogger.Panicf(format, fx())
+			return
+		}
+		if fx, ok := args[0].(func() []interface{}); ok {
+			rootLogger.Panicf(format, fx()...)
+			return
+		}
+	}
 	rootLogger.Panicf(format, args...)
 }
 
 // Debug func
 func Debug(args ...interface{}) {
 	if rootLogger.Level >= logrus.DebugLevel {
+		if len(args) == 1 {
+			if fx, ok := args[0].(func() interface{}); ok {
+				rootLogger.Debug(fx())
+				return
+			}
+			if fx, ok := args[0].(func() []interface{}); ok {
+				rootLogger.Debug(fx()...)
+				return
+			}
+		}
 		rootLogger.Debug(args...)
 	}
 }
