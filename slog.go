@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	logrus_stack "github.com/Gurpartap/logrus-stack"
-	"github.com/Sirupsen/logrus"
 	"github.com/mattn/go-colorable"
+	"github.com/sirupsen/logrus"
 )
 
 type logger struct {
