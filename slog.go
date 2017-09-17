@@ -15,6 +15,8 @@ type logger struct {
 
 var rootLogger *logger
 
+type Level int
+
 func init() {
 	rootLogger = newRootLogger()
 	logrus.AddHook(logrus_stack.NewHook(nil, []logrus.Level{logrus.PanicLevel, logrus.FatalLevel, logrus.ErrorLevel, logrus.WarnLevel}))
@@ -41,6 +43,26 @@ func newRootLogger() *logger {
 	logrus.SetOutput(colorable.NewColorableStdout())
 	logrus.SetFormatter(newFormatter(true))
 	return &logger{logrus.StandardLogger()}
+}
+
+// IsDebug func
+func IsDebug() bool {
+	return logrus.GetLevel() >= logrus.DebugLevel
+}
+
+// IsInfo func
+func IsInfo() bool {
+	return logrus.GetLevel() >= logrus.InfoLevel
+}
+
+// IsWarn func
+func IsWarn() bool {
+	return logrus.GetLevel() >= logrus.WarnLevel
+}
+
+// IsError func
+func IsError() bool {
+	return logrus.GetLevel() >= logrus.ErrorLevel
 }
 
 // SetLevelToDebug func
