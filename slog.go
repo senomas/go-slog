@@ -15,7 +15,8 @@ type logger struct {
 
 var rootLogger *logger
 
-type Level int
+// Fields type
+type Fields logrus.Fields
 
 func init() {
 	rootLogger = newRootLogger()
@@ -78,6 +79,11 @@ func SetLevelToInfo() {
 // SetLevelToWarn func
 func SetLevelToWarn() {
 	logrus.SetLevel(logrus.WarnLevel)
+}
+
+// WithFields func
+func WithFields(fields Fields) *logrus.Entry {
+	return logrus.WithFields(logrus.Fields(fields))
 }
 
 // Debugf func
